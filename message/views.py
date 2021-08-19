@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user, login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
@@ -34,7 +35,7 @@ class LoginViewSet(APIView):
 
 class LogoutViewSet(APIView):
     permission_classes = [IsAuthenticated]
-
+    @login_required
     def post(self, request: Request) -> Response:
         logout(request=request)
         return Response(status=status.HTTP_200_OK)
